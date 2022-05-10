@@ -1,6 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+var jsmediatags = window.jsmediatags;
+
+console.log(jsmediatags);
+
 function App() {
   return (
     <div className="App">
