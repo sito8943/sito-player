@@ -13,10 +13,11 @@ import Container from "../../components/Container/Container";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 // @mui components
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 
 // layouts
 import BlackShape from "../BlackShape/BlackShape";
+import Playlist from "./Playlist/Playlist";
 
 // audio lib
 var jsmediatags = window.jsmediatags;
@@ -68,7 +69,7 @@ const Player = () => {
       justifyContent="center"
       sx={{
         width: "100vw",
-        height: "90vh",
+        height: "100vh",
         backgroundPosition: "center !important",
         backgroundRepeat: "no-repeat !important",
         backgroundSize: "cover !important",
@@ -80,70 +81,79 @@ const Player = () => {
         <BlackShape
           sx={{
             width: "100vw",
-            height: "90vh",
+            height: "100vh",
             backdropFilter: "blur(4px)",
             background: "#222333e5",
           }}
         />
       )}
-      <Container justifyContent="space-around" sx={{ width: "100%" }}>
-        <Container sx={{ zIndex: 4 }}>
-          <input
-            type="file"
-            id="input"
-            accept=".mp3, .wav"
-            onChange={handleInput}
-          />
-          <p>{title}</p>
-          <p>{artist}</p>
-          <p>{album}</p>
-          <p>{genre}</p>
-        </Container>
-
-        <Container sx={{ zIndex: 2 }}>
-          <Container
-            sx={{
-              width: "280px",
-              height: "280px",
-              background: "#222222a8",
-              borderRadius: "15px",
-            }}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <IconButton
-              color={cover === "" ? "secondary" : "primary"}
-              size="large"
-              onClick={play}
-              sx={{ zIndex: 4 }}
-            >
-              <PlayCircleOutlineIcon
-                sx={{ fontSize: cover === "" ? "57px" : "64px" }}
-              />
-            </IconButton>
-            <BlackShape
-              sx={{ borderRadius: "15px", width: "280px", height: "280px" }}
+      <Container
+        flexDirection="column"
+        sx={{ width: "100%", padding: "0 15rem " }}
+      >
+        <Container
+          justifyContent="space-between"
+          sx={{ width: "100%", marginBottom: "75px" }}
+        >
+          <Container sx={{ zIndex: 4, width: "800px" }} flexDirection="column">
+            <input
+              type="file"
+              id="input"
+              accept=".mp3, .wav"
+              onChange={handleInput}
             />
-            {cover === "" ? (
-              <img className={`spin ${imageCover}`} src={logo} alt="logo" />
-            ) : (
-              <Box
-                id="cover"
-                sx={{
-                  width: "280px",
-                  height: "280px",
-                  position: "absolute",
-                  backgroundPosition: "center !important",
-                  backgroundRepeat: "no-repeat !important",
-                  backgroundSize: "cover !important",
-                  background: "#222222a8",
-                  borderRadius: "15px",
-                  backgroundImage: cover,
-                }}
+            <Typography variant="subtitle1">{artist}</Typography>
+            <Typography variant="h1">{title}</Typography>
+            <Typography variant="body1">
+              {album} - {genre}
+            </Typography>
+          </Container>
+          <Container sx={{ zIndex: 2 }}>
+            <Container
+              sx={{
+                width: "280px",
+                height: "280px",
+                background: "#222222a8",
+                borderRadius: "15px",
+              }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <IconButton
+                color={cover === "" ? "secondary" : "primary"}
+                size="large"
+                onClick={play}
+                sx={{ zIndex: 4 }}
+              >
+                <PlayCircleOutlineIcon
+                  sx={{ fontSize: cover === "" ? "57px" : "64px" }}
+                />
+              </IconButton>
+              <BlackShape
+                sx={{ borderRadius: "15px", width: "280px", height: "280px" }}
               />
-            )}
+              {cover === "" ? (
+                <img className={`spin ${imageCover}`} src={logo} alt="logo" />
+              ) : (
+                <Box
+                  id="cover"
+                  sx={{
+                    width: "280px",
+                    height: "280px",
+                    position: "absolute",
+                    backgroundPosition: "center !important",
+                    backgroundRepeat: "no-repeat !important",
+                    backgroundSize: "cover !important",
+                    background: "#222222a8",
+                    borderRadius: "15px",
+                    backgroundImage: cover,
+                  }}
+                />
+              )}
+            </Container>
           </Container>
         </Container>
+        <Playlist />
       </Container>
     </Container>
   );
