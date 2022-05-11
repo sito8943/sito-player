@@ -1,9 +1,16 @@
 import { useState } from "react";
 
-import logo from "../logo.svg";
+// @emotion/css
+import { css } from "@emotion/css";
+
+// images
+import logo from "../../assets/images/logo.svg";
 
 // own components
 import Container from "../../components/Container/Container";
+
+// @mui components
+import { Box } from "@mui/material";
 
 // audio lib
 var jsmediatags = window.jsmediatags;
@@ -28,11 +35,7 @@ const Player = () => {
           base64String += String.fromCharCode(data[i]);
         }
         // Output media tags
-        document.querySelector(
-          "#cover"
-        ).style.backgroundImage = `url(data:${format};base64,${window.btoa(
-          base64String
-        )})`;
+        setCover(`url(data:${format};base64,${window.btoa(base64String)})`);
 
         setTitle(tag.tags.title);
         setArtist(tag.tags.artist);
@@ -45,16 +48,48 @@ const Player = () => {
     });
   };
 
+  const imageCover = css({
+    width: "100%",
+    height: "100%",
+  });
+
   return (
-    <Container>
-      <img src={logo} className="App-logo" alt="logo" />
+    <Container sx={{ zIndex: 2 }}>
+      <Container
+        sx={{
+          width: "280px",
+          height: "280px",
+          background: "#222222a8",
+          borderRadius: "15px",
+        }}
+        alignItems="center"
+        justifyContent="center"
+      >
+        {cover === "" ? (
+          <img className={`spin ${imageCover}`} src={logo} alt="logo" />
+        ) : (
+          <Box
+            id="cover"
+            sx={{
+              width: "280px",
+              height: "280px",
+              backgroundPosition: "center !important",
+              backgroundRepeat: "no-repeat !important",
+              backgroundSize: "cover !important",
+              background: "#222222a8",
+              borderRadius: "15px",
+              backgroundImage: cover,
+            }}
+          />
+        )}
+      </Container>
+
       <input
         type="file"
         id="input"
         accept=".mp3, .wav"
         onChange={handleInput}
       />
-      <div id="cover"></div>
       <p>{title}</p>
       <p>{artist}</p>
       <p>{album}</p>

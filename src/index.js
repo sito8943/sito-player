@@ -2,6 +2,11 @@ import { StrictMode } from "react";
 import * as ReactDOMClient from "react-dom/client";
 
 import "./index.css";
+
+// animations
+import "./assets/animations/spin.css";
+
+// app
 import App from "./App";
 
 // context
