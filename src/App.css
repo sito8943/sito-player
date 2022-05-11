@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+#cover {
+  width: 375px;
+  height: 375px;
+  background-position: center;
+  background-size: cover;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
