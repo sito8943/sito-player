@@ -1,7 +1,12 @@
+// prop types
+import PropTypes from "prop-types";
+
 // @mui components
 import { Box } from "@mui/material";
 
-function BlackShape() {
+const BlackShape = (props) => {
+  const { sx } = props;
+
   return (
     <Box
       sx={{
@@ -10,9 +15,18 @@ function BlackShape() {
         width: "100vw",
         height: "100vh",
         background: "#2223338a",
+        ...sx,
       }}
     />
   );
-}
+};
+
+BlackShape.defaultProps = {
+  sx: {},
+};
+
+BlackShape.propTypes = {
+  sx: PropTypes.object,
+};
 
 export default BlackShape;

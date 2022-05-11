@@ -9,8 +9,14 @@ import logo from "../../assets/images/logo.svg";
 // own components
 import Container from "../../components/Container/Container";
 
+// @mui icons
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+
 // @mui components
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+
+// layouts
+import BlackShape from "../BlackShape/BlackShape";
 
 // audio lib
 var jsmediatags = window.jsmediatags;
@@ -48,52 +54,97 @@ const Player = () => {
     });
   };
 
+  const play = () => {};
+
   const imageCover = css({
-    width: "100%",
-    height: "100%",
+    width: "400px",
+    height: "400px",
+    position: "absolute",
   });
 
   return (
-    <Container sx={{ zIndex: 2 }}>
-      <Container
-        sx={{
-          width: "280px",
-          height: "280px",
-          background: "#222222a8",
-          borderRadius: "15px",
-        }}
-        alignItems="center"
-        justifyContent="center"
-      >
-        {cover === "" ? (
-          <img className={`spin ${imageCover}`} src={logo} alt="logo" />
-        ) : (
-          <Box
-            id="cover"
+    <Container
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        width: "100vw",
+        height: "90vh",
+        backgroundPosition: "center !important",
+        backgroundRepeat: "no-repeat !important",
+        backgroundSize: "cover !important",
+        background: "#222222a8",
+        backgroundImage: cover,
+      }}
+    >
+      {cover !== "" && (
+        <BlackShape
+          sx={{
+            width: "100vw",
+            height: "90vh",
+            backdropFilter: "blur(4px)",
+            background: "#222333e5",
+          }}
+        />
+      )}
+      <Container justifyContent="space-around" sx={{ width: "100%" }}>
+        <Container sx={{ zIndex: 4 }}>
+          <input
+            type="file"
+            id="input"
+            accept=".mp3, .wav"
+            onChange={handleInput}
+          />
+          <p>{title}</p>
+          <p>{artist}</p>
+          <p>{album}</p>
+          <p>{genre}</p>
+        </Container>
+
+        <Container sx={{ zIndex: 2 }}>
+          <Container
             sx={{
               width: "280px",
               height: "280px",
-              backgroundPosition: "center !important",
-              backgroundRepeat: "no-repeat !important",
-              backgroundSize: "cover !important",
               background: "#222222a8",
               borderRadius: "15px",
-              backgroundImage: cover,
             }}
-          />
-        )}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <IconButton
+              color={cover === "" ? "secondary" : "primary"}
+              size="large"
+              onClick={play}
+              sx={{ zIndex: 4 }}
+            >
+              <PlayCircleOutlineIcon
+                sx={{ fontSize: cover === "" ? "57px" : "64px" }}
+              />
+            </IconButton>
+            <BlackShape
+              sx={{ borderRadius: "15px", width: "280px", height: "280px" }}
+            />
+            {cover === "" ? (
+              <img className={`spin ${imageCover}`} src={logo} alt="logo" />
+            ) : (
+              <Box
+                id="cover"
+                sx={{
+                  width: "280px",
+                  height: "280px",
+                  position: "absolute",
+                  backgroundPosition: "center !important",
+                  backgroundRepeat: "no-repeat !important",
+                  backgroundSize: "cover !important",
+                  background: "#222222a8",
+                  borderRadius: "15px",
+                  backgroundImage: cover,
+                }}
+              />
+            )}
+          </Container>
+        </Container>
       </Container>
-
-      <input
-        type="file"
-        id="input"
-        accept=".mp3, .wav"
-        onChange={handleInput}
-      />
-      <p>{title}</p>
-      <p>{artist}</p>
-      <p>{album}</p>
-      <p>{genre}</p>
     </Container>
   );
 };
