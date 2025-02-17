@@ -12,7 +12,7 @@ import { playerState, usePlayer } from "../providers/PlayerProvider";
 import { useCallback } from "react";
 
 function Tools() {
-  const { state, play, pause } = usePlayer();
+  const { state, play, pause, forward, backward } = usePlayer();
 
   const toggleState = useCallback(() => {
     switch (state) {
@@ -26,8 +26,8 @@ function Tools() {
   }, [pause, play, state]);
 
   return (
-    <div className="flex gap-5 bg-min w-full rounded p-3 items-center justify-between">
-      <button className="tool-button">
+    <div className="z-1 flex gap-5 bg-min w-full rounded p-3 items-center justify-between bg-background/90">
+      <button className="tool-button" type="button" onClick={() => backward()}>
         <FontAwesomeIcon icon={faBackwardStep} />
       </button>
       <button onClick={toggleState} className="tool-button !w-12 !h-12">
@@ -35,7 +35,7 @@ function Tools() {
           icon={state !== playerState.playing ? faPlay : faPause}
         />
       </button>
-      <button className="tool-button">
+      <button className="tool-button" onClick={() => forward()}>
         <FontAwesomeIcon icon={faForwardStep} />
       </button>
     </div>

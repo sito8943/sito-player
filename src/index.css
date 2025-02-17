@@ -3,6 +3,34 @@
 @theme {
   --color-background: #1b1b1b;
   --color-primary: #925766;
+  --color-display: #014df1;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.full-moon {
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  clip-path: ellipse(50% 50% at 50% 50%);
+  /* Recorta un círculo perfecto */
+  transform: translateY(
+    -50%
+  ); /* Para mover la imagen y mostrar solo la mitad superior */
+}
+
+.half-moon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  clip-path: ellipse(50% 100% at 50% 100%);
 }
 
 body {
@@ -32,4 +60,18 @@ body {
 
 .roboto {
   font-family: "Roboto", sans-serif !important;
+}
+
+.current {
+  animation: marquee 10s linear infinite; /* Marquee effect */
+  animation-delay: 1s;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

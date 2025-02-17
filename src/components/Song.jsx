@@ -1,29 +1,35 @@
-import { useMemo } from "react";
-
 // providers
+import { useEffect, useState } from "react";
 import { usePlayer } from "../providers/PlayerProvider";
 
-// images
+// utils
+import { noImage } from "../utils/static";
+import { audioMeta } from "../utils/parse";
 
 function Song() {
-  const { playlist } = usePlayer();
+  const { currentSong } = usePlayer();
 
-  const currentSong = useMemo(() => {
-    const playedSong = playlist.find((song) => song.current);
-    return playedSong;
-  }, [playlist]);
+  const [image, setImage] = useState();
+
+  const loadImage = async () => {
+    const meta = await audioMeta(currentSong);
+    setImage(meta.image);
+  };
+
+  useEffect(() => {
+    loadImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentSong]);
 
   return (
-    <div className="w-64 h-64 rounded relative">
-      <img
-        className="min-w-72 h-72 absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] object-cover rounded-xl"
-        src={currentSong?.image ?? "https://picsum.photos/200/300"}
-      />
-      <div className="w-full h-full z-10">
-        <img
-          className="w-full h-full object-cover rounded-xl"
-          src={currentSong?.image ?? "https://picsum.photos/200/300"}
-        />
+    <div className="w-64 h-64 relative">
+      <div className="w-full h-full">
+        <div className="flex items-center justify-center">
+          <img
+            className="object-cover w-full object-center rounded-2xl"
+            src={image ?? noImage}
+          />
+        </div>
       </div>
     </div>
   );
