@@ -12,28 +12,39 @@ export function formatDuration(duration) {
   else return `${formattedMinutes}:${formattedSeconds}`;
 }
 
+export async function parseAudios(audios) {
+  const parseAudios = [...audios];
+  for (let i = 0; i < audios.length; ++i) {
+    parseAudios[i].meta = await audioMeta(parseAudios[i]);
+  }
+  return parseAudios;
+}
+
 export function audioMeta(audio) {
   return new Promise((resolve, reject) => {
     // eslint-disable-next-line no-undef
     jsmediatags.read(audio.src, {
-      onSuccess: function (tag) {
+      onSuccess: function (meta) {
+        console.log(meta);
         const toReturn = {};
 
         // artist
-        if (tag.artist) toReturn.artist = tag.artist;
+        if (meta.tags.artist) toReturn.artist = meta.tags.artist;
         // genre
-        if (tag.genre) toReturn.genre = tag.genre;
+        if (meta.tags.genre) toReturn.genre = meta.tagsgenre;
         // title
-        if (tag.title) toReturn.title = tag.title;
+        if (meta.tags.title) toReturn.title = meta.tags.title;
         else {
-          if (audio.title) return resolve({ title: audio.title });
-          const currentSrc = audio.currentSrc;
-          toReturn.title = currentSrc.split("/").pop();
+          if (audio.title) toReturn.title = audio.title;
+          else {
+            const currentSrc = audio.src;
+            toReturn.title = currentSrc.split("/").pop().split("?")[0];
+          }
         }
 
         // Obtener imagen si existe en los metadatos
-        if (tag.tags.picture) {
-          const image = tag.tags.picture;
+        if (meta.tags.picture) {
+          const image = meta.tags.picture;
           const base64String = image.data.reduce(function (data, byte) {
             return data + String.fromCharCode(byte);
           }, "");

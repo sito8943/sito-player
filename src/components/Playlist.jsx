@@ -4,25 +4,18 @@ import { useCallback, useMemo } from "react";
 import { usePlayer } from "../providers/PlayerProvider";
 
 // utils
-import { audioMeta, formatDuration } from "../utils/parse";
-import { noImage } from "../utils/static";
+import { formatDuration } from "../utils/parse";
 
 function Playlist() {
   const { playlist, currentSong, setIndex } = usePlayer();
 
   const metaData = useCallback((song) => {
-    /* const meta = await audioMeta(song);
-    console.log(meta);
+    /* console.log(song.meta); */
     return (
       <>
-        <img
-          className="min-w-5 h-5"
-          src={meta.image ?? noImage}
-          alt={meta.title}
-        />
-        <h3>{meta.tile}</h3> -<p>{formatDuration(song.duration)}</p>
+        <h3>{song.meta.title}</h3> - <p>{formatDuration(song.duration)}</p>
       </>
-    ); */
+    );
   }, []);
 
   const renderList = useMemo(
@@ -36,7 +29,7 @@ function Playlist() {
               currentSong.title !== song.title
                 ? "text-background"
                 : "text-white current"
-            } p-1 flex gap-2 items-center justify-start press-start-2p-regular text-nowrap text-xs`}
+            } p-1 flex gap-2 items-center justify-start text-nowrap text-xs`}
           >
             {metaData(song)}
             {currentSong.title === song.title ? metaData(song) : ""}
@@ -48,7 +41,7 @@ function Playlist() {
   );
 
   return (
-    <ul className="bg-primary w-64 h-32 overflow-x-hidden overflow-y-auto flex flex-col gap-1 rounded-2xl py-1 px-2 relative">
+    <ul className="bg-primary min-w-64 max-w-64 h-32 overflow-x-hidden overflow-y-auto flex flex-col gap-1 rounded-2xl py-1 px-2 relative">
       {renderList}
     </ul>
   );
